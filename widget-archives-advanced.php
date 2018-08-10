@@ -9,6 +9,13 @@
  * License: MIT
  */
 
+defined( 'ABSPATH' ) or die();
+
+/**
+ * Добавляет виджет улучшенных архивов на панель доступных виджетов.
+ *
+ * @return void
+ */
 function register_widget_archives_advanced() {
 
     class WP_Widget_Archives_Advanced extends WP_Widget_Archives {
@@ -81,7 +88,13 @@ function register_widget_archives_advanced() {
                         id="<?php echo $this->get_field_id( 'post_type' ); ?>"
                         class="widefat"
                 >
-                    <?php foreach ( get_post_types( [ 'public' => true, ], 'objects' ) as $post_type ): ?>
+                    <?php
+                    $post_types = get_post_types( [
+                        'public'            => true,
+                        'show_in_nav_menus' => true,
+                    ], 'objects' );
+
+                    foreach ( $post_types as $post_type ): ?>
                         <option
                                 value="<?php echo esc_attr( $post_type->name ); ?>"
                             <?php selected( $instance['post_type'], $post_type->name ); ?>
